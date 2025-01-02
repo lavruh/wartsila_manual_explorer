@@ -3,11 +3,12 @@ import 'package:path/path.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:pdfrx/pdfrx.dart';
-import 'package:printing/printing.dart';
+
 import 'package:wartsila_manual_explorer/bookmark_ref.dart';
 import 'package:wartsila_manual_explorer/man_menu.dart';
 import 'package:wartsila_manual_explorer/man_view.dart';
 import 'package:wartsila_manual_explorer/rel_doc_view.dart';
+import 'package:wartsila_manual_explorer/utils/export_pdf.dart';
 
 class ManViewScreen extends StatefulWidget {
   const ManViewScreen({super.key});
@@ -94,23 +95,13 @@ class _ManViewScreenState extends State<ManViewScreen> {
                               icon: Icon(Icons.folder_open)),
                           IconButton(
                               onPressed: () {
-                                // controller.documentRef?.
+                                final originalManual = manualPdfFile.value;
+                                if (originalManual == null) return;
+                                exportPdf(
+                                    originalManual: originalManual,
+                                    context: context);
                               },
                               icon: Icon(Icons.save_alt)),
-                          IconButton(
-                              onPressed: () {
-                                Printing.layoutPdf(
-                                  onLayout: (format) {
-                                    final f = manualPdfFile.value;
-                                    if (f == null) {
-                                      throw Exception("File is not open");
-                                    }
-                                    return f.readAsBytesSync();
-                                  },
-                                  usePrinterSettings: true,
-                                );
-                              },
-                              icon: Icon(Icons.print)),
                         ]),
                       ),
                       body: ManView(
