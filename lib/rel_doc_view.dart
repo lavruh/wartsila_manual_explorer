@@ -51,6 +51,7 @@ class _RelDocumentViewState extends State<RelDocumentView> {
               onPressed: () => relatedDocViewPath.value = null,
             );
             title = p.basename(val);
+            // TODO: Add icon button to export pdf for printing
             body = ManView(
                 manualPath: val,
                 controller: PdfViewerController(),

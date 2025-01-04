@@ -20,9 +20,11 @@ class ManView extends StatefulWidget {
   State<ManView> createState() => _ManViewState();
 }
 
-class _ManViewState extends State<ManView> {
+class _ManViewState extends State<ManView> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       body: PdfViewer.file(
         widget.manualPath,
@@ -77,4 +79,7 @@ class _ManViewState extends State<ManView> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

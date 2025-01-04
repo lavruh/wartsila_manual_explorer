@@ -2,7 +2,7 @@ name: wartsila_manual_explorer
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.1+1
 
 environment:
   sdk: ^3.6.0
@@ -14,7 +14,7 @@ dependencies:
   get: ^4.6.6
   path_provider: ^2.1.5
   path: ^1.9.0
-  shared_preferences: ^2.3.4
+  shared_preferences: ^2.3.5
   syncfusion_flutter_pdf: ^28.1.37
   file_picker: ^8.1.7
 

@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pdfrx/pdfrx.dart';
+import 'package:wartsila_manual_explorer/app_controller.dart';
 import 'package:wartsila_manual_explorer/outline_menu.dart';
 import 'package:wartsila_manual_explorer/search_view.dart';
 
 class ManMenu extends StatelessWidget {
-  const ManMenu({
-    super.key,
-    required this.controller,
-    required this.outline,
-    required this.documentRef,
-    required this.textSearcher,
-  });
-  final PdfViewerController controller;
-  final ValueNotifier<List<PdfOutlineNode>?> outline;
-  final ValueNotifier<PdfDocumentRef?> documentRef;
-  final PdfTextSearcher textSearcher;
+  const ManMenu({super.key, required this.controller});
+  final AppController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +21,16 @@ class ManMenu extends StatelessWidget {
             child: TabBarView(
               children: [
                 ValueListenableBuilder(
-                    valueListenable: outline,
+                    valueListenable: controller.outline,
                     builder: (context, val, child) {
                       final outline = val ?? [];
                       return OutlineMenu(
-                          outline: outline, controller: controller);
+                          outline: outline, controller: controller.viewer);
                     }),
                 ValueListenableBuilder(
-                  valueListenable: documentRef,
+                  valueListenable: controller.docRef,
                   builder: (context, documentRef, child) => TextSearchView(
-                    textSearcher: textSearcher,
+                    textSearcher: controller.textSearcher,
                   ),
                 ),
               ],
