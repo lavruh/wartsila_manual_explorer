@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart' as p;
+import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdfrx/pdfrx.dart';
@@ -20,24 +21,25 @@ class AppController {
 
   String get manualPath => manualPdfFile.value!.path;
 
-  loadSettings() async {
+  loadSettings(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final manualPath = prefs.getString("manualPath");
     if (manualPath != null) {
       await _openManualFile(manualPath);
     }
-    if (manualPdfFile.value == null) {
-      selectFile();
+    if (manualPdfFile.value == null && context.mounted) {
+      selectFile(context);
     }
   }
 
-  selectFile() async {
-    final files = await FilePicker.platform.pickFiles(
+  selectFile(BuildContext context) async {
+    final dir = await FilePicker.platform.getDirectoryPath(
       dialogTitle: "Select manual file",
     );
-    final s = files?.files.first.path;
-    if (s != null) {
-      await _openManualFile(s);
+    if (dir != null && context.mounted) {
+      final path = await FilesystemPicker.open(
+          context: context, rootDirectory: Directory(dir));
+      if (path != null) await _openManualFile(path);
     }
   }
 

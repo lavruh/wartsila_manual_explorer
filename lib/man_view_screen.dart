@@ -70,7 +70,7 @@ class _ManViewScreenState extends State<ManViewScreen> {
                 onPressed: () => controller.viewer.zoomUp(),
                 icon: Icon(Icons.zoom_in)),
             IconButton(
-                onPressed: () => controller.selectFile(),
+                onPressed: () => controller.selectFile(context),
                 icon: Icon(Icons.folder_open)),
             IconButton(
                 onPressed: () => controller.exportPages(context),

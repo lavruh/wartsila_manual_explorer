@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:wartsila_manual_explorer/app_controller.dart';
 import 'package:wartsila_manual_explorer/man_view_screen.dart';
+import 'package:wartsila_manual_explorer/man_view_screen_android.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +21,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    controller.loadSettings();
+    controller.loadSettings(context);
     super.initState();
   }
 
@@ -43,9 +46,12 @@ class _MyAppState extends State<MyApp> {
                 if (man == null) {
                   return Center(
                     child: IconButton(
-                        onPressed: () => controller.selectFile(),
+                        onPressed: () => controller.selectFile(context),
                         icon: Icon(Icons.folder_open)),
                   );
+                }
+                if (Platform.isAndroid) {
+                  return ManViewScreenAndroid(app: controller);
                 }
                 return ManViewScreen(app: controller);
               })),

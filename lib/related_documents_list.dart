@@ -13,23 +13,22 @@ class RelatedDocumentsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.4,
-      child: ValueListenableBuilder(
-          valueListenable: relatedDocuments,
-          builder: (context, val, child) {
-            if (val == null) {
-              return Container();
-            }
-            return Wrap(
-              children: val.relatedFilePathes
-                  .map((e) => ActionChip(
-                        label: Text(p.basename(e)),
-                        onPressed: () => onFileSelected(e),
-                      ))
-                  .toList(),
-            );
-          }),
-    );
+    return ValueListenableBuilder(
+        valueListenable: relatedDocuments,
+        builder: (context, val, child) {
+          if (val == null) {
+            return Container();
+          }
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: val.relatedFilePathes
+                .map((e) => TextButton(
+                      child: Text(p.basename(e)),
+                      onPressed: () => onFileSelected(e),
+                    ))
+                .toList(),
+          );
+        });
   }
 }

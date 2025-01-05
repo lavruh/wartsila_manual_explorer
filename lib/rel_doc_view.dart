@@ -40,6 +40,7 @@ class _RelDocumentViewState extends State<RelDocumentView> {
           String title = "Related documents:";
           Widget? leading;
 
+
           if (val == null) {
             body = RelatedDocumentsList(
               relatedDocuments: widget.relatedDocuments,
