@@ -28,7 +28,7 @@ jobs:
             filename: wartsila_manual_explorer-${{github.ref_name}}-windows-${{steps.read-version.outputs.version-number}}.zip
             directory: build/windows/x64/runner/Release
         - name: Release
-          uses: softprops/action-gh-release@v1
+          uses: softprops/action-gh-release@v2
           with:
             tag_name: wartsila_manual_explorer-win-${{steps.read-version.outputs.version-number}}
             files: build/windows/x64/runner/Release/wartsila_manual_explorer-${{github.ref_name}}-windows-${{steps.read-version.outputs.version-number}}.zip
