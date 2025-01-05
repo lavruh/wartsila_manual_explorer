@@ -1,0 +1,30 @@
+name: Android Release
+on: workflow_dispatch
+
+jobs:
+  build:
+    name: flutter release apk
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - id: read-version
+        uses: NiklasLehnfeld/flutter-version-number-action@main
+        with:
+          file-path: pubspec.yaml
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.27.1'
+      - name: Install project dependencies
+        run: flutter pub get
+      - name: Build artifacts
+        run: flutter build apk --release
+      - name: Rename file
+        run: mv build/app/outputs/apk/release/app-release.apk build/app/outputs/apk/release/wartsila_manual_explorer-${{steps.read-version.outputs.version-number}}.apk
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: wartsila_manual_explorer-${{steps.read-version.outputs.version-number}}
+          files: build/app/outputs/apk/release/wartsila_manual_explorer-${{steps.read-version.outputs.version-number}}.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
