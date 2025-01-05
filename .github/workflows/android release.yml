@@ -28,7 +28,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: wartsila_manual_explorer-${{steps.read-version.outputs.version-number}}
+          tag_name: wartsila_manual_explorer-apk-${{steps.read-version.outputs.version-number}}
           files: build/app/outputs/apk/release/wartsila_manual_explorer-${{steps.read-version.outputs.version-number}}.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
