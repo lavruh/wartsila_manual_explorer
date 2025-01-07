@@ -9,8 +9,8 @@ class BookmarkRef {
   final Directory relatedDir;
   final List<String> relatedFilePathes;
 
-  BookmarkRef._(this.name, this.pageStartNumber, this.chapter,
-      this.relatedDir, this.relatedFilePathes);
+  BookmarkRef._(this.name, this.pageStartNumber, this.chapter, this.relatedDir,
+      this.relatedFilePathes);
 
   factory BookmarkRef.getRef({
     required String name,
@@ -20,8 +20,8 @@ class BookmarkRef {
     final chapterNumber = name.substring(0, 2);
     int ch = 0;
 
-    try{
-     ch = int.parse(chapterNumber);
+    try {
+      ch = int.parse(chapterNumber);
     } catch (e) {
       throw Exception("Invalid chapter number: $chapterNumber");
     }
@@ -39,6 +39,12 @@ class BookmarkRef {
         .listSync()
         .map((e) => p.join(relatedDir.path, e.path))
         .toList();
+
+    relatedFilePathes.sort((a, b) {
+      return p
+          .basenameWithoutExtension(a)
+          .compareTo(p.basenameWithoutExtension(b));
+    });
 
     return BookmarkRef._(
         name, pageStartNumber, ch, relatedDir, relatedFilePathes);

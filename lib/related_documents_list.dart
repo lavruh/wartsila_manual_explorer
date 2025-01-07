@@ -19,15 +19,17 @@ class RelatedDocumentsList extends StatelessWidget {
           if (val == null) {
             return Container();
           }
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: val.relatedFilePathes
-                .map((e) => TextButton(
-                      child: Text(p.basename(e)),
-                      onPressed: () => onFileSelected(e),
-                    ))
-                .toList(),
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: val.relatedFilePathes
+                  .map((e) => TextButton(
+                        child: Text(p.basename(e)),
+                        onPressed: () => onFileSelected(e),
+                      ))
+                  .toList(),
+            ),
           );
         });
   }
