@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pdfrx/pdfrx.dart';
-import 'package:path/path.dart' as p;
 import 'package:wartsila_manual_explorer/bookmark_ref.dart';
 import 'package:wartsila_manual_explorer/man_view.dart';
 import 'package:wartsila_manual_explorer/related_documents_list.dart';
@@ -24,13 +23,18 @@ class _RelDocumentViewState extends State<RelDocumentView> {
   final controller = PdfViewerController();
   late final textSearcher = PdfTextSearcher(controller)..addListener(_update);
   final relatedDocViewPath = ValueNotifier<String?>(null);
+  final documentsFilter = ValueNotifier<String>("");
   int ch = 0;
+  double scale = 0.2;
 
   _update() => setState(() {});
 
   @override
   void initState() {
     ch = widget.relatedDocuments.value?.chapter ?? 0;
+    if (Platform.isAndroid) {
+      scale = 0.5;
+    }
     super.initState();
   }
 
@@ -40,14 +44,24 @@ class _RelDocumentViewState extends State<RelDocumentView> {
         valueListenable: relatedDocViewPath,
         builder: (context, val, child) {
           Widget body = Container();
-          String title = "Related documents:";
+          String title = "Related docs:";
           Widget? leading;
           List<Widget> actions = [];
 
           if (val == null) {
+            actions = [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * scale,
+                child: TextField(
+                  decoration: InputDecoration(labelText: "Search"),
+                  onChanged: (val) => documentsFilter.value = val,
+                ),
+              )
+            ];
             body = RelatedDocumentsList(
               relatedDocuments: widget.relatedDocuments,
               onFileSelected: (val) => relatedDocViewPath.value = val,
+              filter: documentsFilter,
             );
           } else {
             leading = IconButton(
@@ -57,9 +71,9 @@ class _RelDocumentViewState extends State<RelDocumentView> {
                 relatedDocViewPath.value = null;
               },
             );
-            title = p.basename(val);
+            title = "";
             actions.add(SizedBox(
-              width: MediaQuery.of(context).size.width * 0.15,
+              width: MediaQuery.of(context).size.width * scale,
               child: TextField(
                 decoration: InputDecoration(
                     labelText: "Search",

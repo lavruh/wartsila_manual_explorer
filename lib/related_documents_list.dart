@@ -6,10 +6,12 @@ class RelatedDocumentsList extends StatelessWidget {
   const RelatedDocumentsList(
       {super.key,
       required this.relatedDocuments,
-      required this.onFileSelected});
+      required this.onFileSelected,
+      required this.filter});
 
   final ValueNotifier<BookmarkRef?> relatedDocuments;
   final Function(String) onFileSelected;
+  final ValueNotifier<String> filter;
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +21,23 @@ class RelatedDocumentsList extends StatelessWidget {
           if (val == null) {
             return Container();
           }
-          return SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: val.relatedFilePathes
-                  .map((e) => TextButton(
-                        child: Text(p.basename(e)),
-                        onPressed: () => onFileSelected(e),
-                      ))
-                  .toList(),
-            ),
-          );
+          return ValueListenableBuilder(
+              valueListenable: filter,
+              builder: (context, f, child) {
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: val.relatedFilePathes
+                        .where((e) => p.basename(e).contains(f))
+                        .map((e) => TextButton(
+                              child: Text(p.basename(e)),
+                              onPressed: () => onFileSelected(e),
+                            ))
+                        .toList(),
+                  ),
+                );
+              });
         });
   }
 }
