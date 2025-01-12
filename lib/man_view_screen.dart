@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:wartsila_manual_explorer/app_controller.dart';
 import 'package:wartsila_manual_explorer/man_menu.dart';
 import 'package:wartsila_manual_explorer/man_view.dart';
 import 'package:wartsila_manual_explorer/rel_doc_view.dart';
+import 'package:wartsila_manual_explorer/utils/util_functions_dialog.dart';
 
 class ManViewScreen extends StatefulWidget {
   const ManViewScreen({super.key, required this.app});
@@ -75,6 +78,10 @@ class _ManViewScreenState extends State<ManViewScreen> {
             IconButton(
                 onPressed: () => controller.exportPages(context),
                 icon: Icon(Icons.save_alt)),
+            if (Platform.isLinux)
+              IconButton(
+                  onPressed: () => utilFunctionsDialog(context),
+                  icon: Icon(Icons.play_arrow)),
           ]),
         ),
         body: ManView(
